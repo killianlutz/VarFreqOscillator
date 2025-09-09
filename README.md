@@ -10,7 +10,7 @@ git clone https://github.com/killianlutz/VarFreqOscillator.git
 ## Reproduce all figures
 There are three steps:
 
-- Open a terminal and change directory to this project. Your current directory should end with `./VarFreqOscillator`.
+- Open a terminal and change directory to this project. Your directory now ends with `./VarFreqOscillator`.
 
 - Perform the necessary calculations, stored in the `./sims` directory, by running
 ```
