@@ -31,4 +31,4 @@ In the directory `./scripts_figs/`, each one of the 5 files corresponds to one o
 - Fig. 5: `plot_floquet3D.jl`
 
 ## Troubleshooting
-Feel free to reach out to me me: [Killian Lutz](https://killianlutz.github.io/).
+Feel free to reach out to me: [Killian Lutz](https://killianlutz.github.io/).
