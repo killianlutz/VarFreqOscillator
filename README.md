@@ -1,5 +1,5 @@
 ## Purpose: reproducibility
-This code, written in [Julia](https://julialang.org/) version `1.11.6`, is provided to reproduce the figures in [this]() paper.
+This code, written in [Julia](https://julialang.org/), is provided to reproduce the figures in [this]() paper.
 
 ## Getting started 
 Open the terminal and run
@@ -8,7 +8,7 @@ git clone https://github.com/killianlutz/VarFreqOscillator.git
 ```
 
 ## Reproduce all figures
-Assuming Julia is correctly [installed](https://docs.julialang.org/en/v1/manual/installation/), there are three steps:
+Assuming Julia version `1.11.6` is correctly [installed](https://docs.julialang.org/en/v1/manual/installation/), there are three steps:
 
 - Open a terminal and change directory to this project. Your directory now ends with `./VarFreqOscillator`.
 
