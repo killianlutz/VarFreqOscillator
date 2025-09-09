@@ -10,7 +10,7 @@ git clone https://github.com/killianlutz/VarFreqOscillator.git
 ## Reproduce all figures
 There are three steps:
 
-- Open a terminal and change directory to the project VarfreqOscillator.
+- Open a terminal and change directory to this project. Your current directory should end with `./VarFreqOscillator`.
 
 - Perform the necessary calculations, stored in the `./sims` directory, by running
 ```
@@ -23,7 +23,7 @@ julia --project=. reproduce/run_figs.jl
 ```
 
 ## Files associated to figures
-Change directory to `./scripts_figs/`. There are five files, each of which is associated to one of the 5 figures of the paper:
+In the directory `./scripts_figs/`, each one of the 5 files corresponds to one of the 5 figures in the paper:
 - Fig. 1: `plot_trajectories.jl`
 - Fig. 2: `plot_amplification.jl`
 - Fig. 3: `plot_floquet2D.jl`
@@ -31,4 +31,4 @@ Change directory to `./scripts_figs/`. There are five files, each of which is as
 - Fig. 5: `plot_floquet3D.jl`
 
 ## Troubleshooting
-Feel free to contact me by email: killian.lutz[at]inria.fr
+Feel free to reach out to me me: [Killian Lutz](https://github.com/killianlutz).
