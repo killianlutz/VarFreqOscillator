@@ -2,6 +2,20 @@ using JLD2
 using CairoMakie
 CairoMakie.activate!()
 
+function ωα_at_threshold(γ, Γ1)
+    # ASSUMES Γ1 = rmax_threshold(γ), i.e. Γ1 is the smallest Γ such that sup(R) >= 1, given γ
+    num = 2γ * (π - atan(Γ1))
+    den = num + Γ1*(log(1 + γ) - log(1 - γ))
+    α_thr = num/den # α^*
+
+    num = 4π
+    den = Γ1*(log(1 + Γ1^2) - log(1 - γ^2))
+    ω_thr = num/den # ω^*/ω_0
+
+    z_thr = Point2(α_thr, ω_thr)
+    return z_thr
+end
+
 function fig_floquet3D(; fig=Figure())
     @load "./sims/optstepfun_natfreq.jld2" Γs zs z1s
     @load "./sims/floquet3d.jld2" α ρ γ Γ1 xz y
@@ -75,6 +89,11 @@ function fig_floquet3D(; fig=Figure())
     lines!(axs, segment, color=:blue, linestyle=:dash, linewidth=1.0)
     text!(axs, textposition; text=L"ω_{\mathrm{thr}}/\eta", color=:blue, fontsize=textsize)
     
+    # limiting parameters as ω0 → ω_{thr}
+    z_thr = ωα_at_threshold(γ, Γ1)
+    p_thr = Point3(first(z_thr), ω01, log10(last(z_thr)))
+    scatter!(axs, p_thr, color=:blue, marker=:circle, markersize=12)
+
     fig
 end
 
