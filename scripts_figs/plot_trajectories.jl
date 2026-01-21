@@ -37,7 +37,7 @@ function fig_trajectories(; fig=Figure())
     η = 1.0 # by default in all simulations
     Γ = sqrt(4u_max/η^2 - 1)
     ω0 = η*Γ/2
-    ω0T = round(ω0*t[end], digits=1)
+    ω0T = round(Int, ω0*t[end])
 
     r = round(Int, r_target)
     u = v/maximum(v)
@@ -114,7 +114,7 @@ function fig_trajectories(; fig=Figure())
     η = 1.0 # by default in all simulations
     Γ = sqrt(4u_max/η^2 - 1)
     ω0 = η*Γ/2
-    ω0T = round(ω0*t[end], digits=1)
+    ω0T = round(Int, ω0*t[end])
 
     r = round(Int, r_target)
     u = v/maximum(v)
