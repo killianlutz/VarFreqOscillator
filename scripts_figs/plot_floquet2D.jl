@@ -61,7 +61,6 @@ function fig_floquet2D(; fig=Figure())
     end 
     axislegend(axs, L"ω/ω_0"; position=:cb, titlesize=18)
 
-
     Colorbar(fig[1, 2][:, 1], hm, label=L"|λ|_{\mathrm{max}}", labelsize=fontsize)
     Colorbar(fig[1, 2][:, 2], sc, label=L"\log_{10}(r)", labelsize=fontsize)
     xlims!(axs, xlimits)
