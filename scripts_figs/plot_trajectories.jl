@@ -26,47 +26,76 @@ function find_slope(x, dx, v)
     return slope
 end
 
+
 function fig_trajectories(; fig=Figure())
     fontsize = 20
     
     ############### FIRST EXAMPLE
     @load "./sims/trajectory_r2.jld2" r_target t x dx v T   
  
-    T = round(t[end], digits=2)
+    u_max = maximum(v)
+    η = 1.0 # by default in all simulations
+    Γ = sqrt(4u_max/η^2 - 1)
+    ω0 = η*Γ/2
+    ω0T = round(ω0*t[end], digits=1)
+
     r = round(Int, r_target)
     u = v/maximum(v)
     colorrange = (minimum(u), 1.0)
     cmap = cgrad([:purple, :orange], length(unique(u)))
     p = (; markersize=6, color=u, colormap=cmap, colorrange, marker=:cross)
-    
-    #### common axis for trajectories
+
+    #### axis for first trajectory
     axtraj = Axis(fig[1, 1], 
-        xlabel=L"x", 
+        xlabel=L"x\;\, \mathrm{[m]}", 
         xlabelsize=fontsize,
-        xticks=(-1:3, [L"%$(i)" for i in -1:3]),
-        ylabel=L"\dot{x}",
+        xticks=([-1, 0, 2], [L"%$(i)" for i in [-1, 0, 2]]),
+        ylabel=L"\dot{x}\;\, \mathrm{[m/s]}",
         ylabelsize=fontsize, 
-        yticks=(0:10:20, [L"%$(i)" for i in 0:10:20]),
+        yticks=([0, 10], [L"%$(i)" for i in [0, 10]]),
         aspect=AxisAspect(1)
         )
-    
+    ylims!(axtraj, -1.0, 15.0)
+
     ##### commutation line
     θ_slope = find_slope(x, dx, v)
-    lines!(axtraj, 0.0..3.0, z -> θ_slope*z, color=first(cmap), linestyle=:dot, linewidth=2.0)    
+    lines!(axtraj, 0.0..r_target, z -> θ_slope*z, color=first(cmap), linestyle=:dot, linewidth=2.0)    
 
-    ##### first trajectory
-    scatter!(axtraj, x, dx; p...)
+    ##### fill surface to indicate angle θ and add label
+    xs = range(0.0, 15, 2)
+    ylower = xs/θ_slope 
+    yupper = 0*xs
+    band!(axtraj, xs, ylower, yupper; direction=:y, color=first(cmap), alpha=0.1)
+
+    position = Point2(1/2, 10.0)
+    text = L"θ^*"
+    offset = (-8, -35)
+    text!(axtraj, position; text, fontsize, offset, color=:purple)
+
+    ##### starting at (-1, 0) instead of (-3/r, 0).
+    xx = r_target/3 * x
+    dxx = r_target/3 * dx
+    scatter!(axtraj, xx, dxx; p...)
+
+    ##### end points of the trajectory
+    positions = [Point2(-1.0, 0.0), Point2(r_target, 0.0)]
+    text = [L"A", L"B"]
+    align = [(:left, :bottom), (:right, :bottom)]
+    offset = [(5, 0), (-7, 0)]
+    scatter!(axtraj, positions, color=:black, marker=:circle, markersize=12)
+    text!(axtraj, positions; text, align, fontsize=15, offset)
 
     ##### first control
-    axctrl1 = Axis(fig[1, 2][1, 1:2], 
+    axctrl1 = Axis(fig[1, 2], 
         xlabel=L"t/T", 
         xlabelsize=0.85fontsize,
-        ylabel=L"u/\bar{u}", 
+        ylabel=L"u/u_{\max}", 
         ylabelsize=0.85fontsize,
-        title=L"r = %$(r), \, T^* ≃ %$(T)", 
+        title=L"r = %$(r), \quad \omega_0T^* ≃ %$(ω0T)", 
         aspect=AxisAspect(1),
         xticks=(0:1, [L"0", L"1"]),
-        yticks=(0:1, [L"0", L"1"])
+        yticks=(0:1, [L"0", L"1"]),
+        titlesize=15
         )
     # step function look
     stairs!(axctrl1, t/T, u; color=:black, alpha=0.2)
@@ -75,34 +104,80 @@ function fig_trajectories(; fig=Figure())
     # subdivide into periods
     k = 1
     vlines!(axctrl1, [i/k for i in 0:k], color=:black, linestyle=:dash, alpha=1.0, linewidth=1.5)
-    
+
+    ###############
     ############### SECOND EXAMPLE
+    ###############
     @load "./sims/trajectory_r15.jld2" r_target t x dx v T  
 
-    T = round(t[end], digits=2)
+    u_max = maximum(v)
+    η = 1.0 # by default in all simulations
+    Γ = sqrt(4u_max/η^2 - 1)
+    ω0 = η*Γ/2
+    ω0T = round(ω0*t[end], digits=1)
+
     r = round(Int, r_target)
     u = v/maximum(v)
     colorrange = (minimum(u), 1.0)
     cmap = cgrad(:RdYlGn_9, length(unique(u)); rev=true, categorical=true)
     p = (; markersize=6, color=u, colormap=cmap, colorrange, marker=:cross)
     
+    #### axis for second trajectory
+    axtraj = Axis(fig[2, 1], 
+        xlabel=L"x\;\, \mathrm{[m]}", 
+        xlabelsize=fontsize,
+        xticks=([-8, 0, 15], [L"%$(i)" for i in [-8, 0, 15]]),
+        ylabel=L"\dot{x}\;\, \mathrm{[m/s]}",
+        ylabelsize=fontsize, 
+        yticks=([0, 60], [L"%$(i)" for i in [0, 60]]),
+        aspect=AxisAspect(1)
+        )
+    ylims!(axtraj, -40, 90)
+
     ##### commutation line
     θ_slope = find_slope(x, dx, v)
-    lines!(axtraj, -1.5..3.0, z -> θ_slope*z, color=first(cmap), linestyle=:dot, linewidth=2.0)    
+    lines!(axtraj, -7.0..r_target, z -> θ_slope*z, color=first(cmap), linestyle=:dot, linewidth=2.0)    
 
-    ##### second trajectory
-    scatter!(axtraj, x, dx; p...)
+    ##### fill surface to indicate angle θ and add label
+    xs = range(-40.0, 0.0, 2)
+    ylower = 0*xs
+    yupper = xs/θ_slope
+    band!(axtraj, xs, ylower, yupper; direction=:y, color=first(cmap), alpha=0.1)
+
+    xs = range(0.0, 90.0, 2)
+    ylower = xs/θ_slope 
+    yupper = 0*xs
+    band!(axtraj, xs, ylower, yupper; direction=:y, color=first(cmap), alpha=0.1)
+
+    position = Point2(2.5, 50.0)
+    text = L"θ^*"
+    offset = (-5, -25)
+    text!(axtraj, position; text, fontsize, offset, color=first(cmap))
+
+    ##### starting at (-1, 0) instead of (-3/r, 0).
+    xx = r_target/3 * x
+    dxx = r_target/3 * dx
+    scatter!(axtraj, xx, dxx; p...)
+
+    ##### end points of the trajectory
+    positions = [Point2(-1.0, 0.0), Point2(r_target, 0.0)]
+    text = [L"A", L"B"]
+    align = [(:right, :bottom), (:right, :bottom)]
+    offset = [(-5, 0), (-7, 0)]
+    scatter!(axtraj, positions, color=:black, marker=:circle, markersize=12)
+    text!(axtraj, positions; text, align, fontsize=15, offset)
 
     ##### second control
-    axctrl2 = Axis(fig[1, 2][2, 1:2], 
+    axctrl2 = Axis(fig[2, 2], 
         xlabel=L"t/T", 
         xlabelsize=0.85fontsize,
-        ylabel=L"u/\bar{u}", 
-        ylabelsize=0.85fontsize, 
-        title=L"r = %$(r), \, T^* ≃ %$(T)", 
+        ylabel=L"u/u_{\max}", 
+        ylabelsize=0.85fontsize,
+        title=L"r = %$(r), \quad \omega_0T^* ≃ %$(ω0T)", 
         aspect=AxisAspect(1),
         xticks=(0:1, [L"0", L"1"]),
-        yticks=(0:1, [L"0", L"1"])
+        yticks=(0:1, [L"0", L"1"]),
+        titlesize=15
         )
     # step function look
     stairs!(axctrl2, t/T, u; color=:black, alpha=0.2)
@@ -112,6 +187,8 @@ function fig_trajectories(; fig=Figure())
     k = 3
     vlines!(axctrl2, [i/k for i in 0:k], color=:black, linestyle=:dash, alpha=1.0, linewidth=1.5)
     
+    colgap!(fig.layout, -100)
+
     return fig
 end
 
