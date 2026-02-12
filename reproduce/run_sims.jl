@@ -7,7 +7,8 @@ files = [
     "specrad_argmax.jl",
     "floquet3d.jl",
     "solution_amplification.jl",
-    "trajectories.jl"
+    "trajectories.jl",
+    "step_examples.jl"
 ]
 
 foreach(files) do file

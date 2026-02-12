@@ -26,7 +26,7 @@ begin
     ω0 = η*Γ/2
     Ω = zeros(3)
     A = zeros(3)
-    isunstable = [1, 0, 0]
+    is_stable = [0, 1, 1]
 
     Ω[1] = ω/ω0
     A[1] = α
@@ -58,4 +58,4 @@ ts = first.(out)
 vs = map(x -> x[2], out)
 Ys = last.(out)
 
-@save "./sims/step_parameters.jld2" Ω A isunstable ts vs Ys ϕs ω0
+@save "./sims/step_parameters.jld2" Ω A is_stable ts vs Ys ϕs ω0
