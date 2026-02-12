@@ -53,6 +53,8 @@ function fig_trajectories(; fig=Figure())
         ylabel=L"\dot{x}\;\, \mathrm{[m/s]}",
         ylabelsize=fontsize, 
         yticks=([0, 10], [L"%$(i)" for i in [0, 10]]),
+        xtickalign=1.0, # ticks pointing inside
+        ytickalign=1.0, # ticks pointing inside
         aspect=AxisAspect(1)
         )
     ylims!(axtraj, -1.0, 15.0)
@@ -130,6 +132,8 @@ function fig_trajectories(; fig=Figure())
         ylabel=L"\dot{x}\;\, \mathrm{[m/s]}",
         ylabelsize=fontsize, 
         yticks=([0, 60], [L"%$(i)" for i in [0, 60]]),
+        xtickalign=1.0, # ticks pointing inside
+        ytickalign=1.0, # ticks pointing inside
         aspect=AxisAspect(1)
         )
     ylims!(axtraj, -40, 90)
@@ -139,10 +143,10 @@ function fig_trajectories(; fig=Figure())
     lines!(axtraj, -7.0..r_target, z -> θ_slope*z, color=first(cmap), linestyle=:dot, linewidth=2.0)    
 
     ##### fill surface to indicate angle θ and add label
-    xs = range(-40.0, 0.0, 2)
-    ylower = 0*xs
-    yupper = xs/θ_slope
-    band!(axtraj, xs, ylower, yupper; direction=:y, color=first(cmap), alpha=0.1)
+    # xs = range(-40.0, 0.0, 2)
+    # ylower = 0*xs
+    # yupper = xs/θ_slope
+    # band!(axtraj, xs, ylower, yupper; direction=:y, color=first(cmap), alpha=0.1)
 
     xs = range(0.0, 90.0, 2)
     ylower = xs/θ_slope 
@@ -191,6 +195,7 @@ function fig_trajectories(; fig=Figure())
 
     return fig
 end
+
 
 ### save 
 fig = fig_trajectories()

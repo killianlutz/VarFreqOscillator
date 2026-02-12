@@ -3,13 +3,13 @@ function ψ(τ, p)
     return T1(τ, p) + τ * log(R(τ, p))
 end
 
-function bissection(f, a0, b0, abstol)
+function bissection(f, a0, b0, abstol; nmax=500)
     n = 0
     a = a0
     b = b0
     dist = abs(b - a)
 
-    while dist > abstol && n <= 500
+    while dist > abstol && n <= nmax
         m = (a + b)/2
         if f(m)*f(a) <= 0
             b = m

@@ -14,7 +14,7 @@ function fig_amplification(; fig=Figure())
     η = p.damping_rate
     Γ = sqrt(4u_max/η^2 - 1)
     ω0 = η*Γ/2
-    T = ω0*T/10
+    T = ω0*T/15
 
     fig = Figure(size=(500, 500))
     axs = Axis(
