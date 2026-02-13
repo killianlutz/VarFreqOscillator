@@ -9,7 +9,7 @@ function fig_cstfreqslice(; fig=Figure())
 
     axs = Axis(
         fig[1, 1], 
-        aspect=AxisAspect(1), 
+        # aspect=AxisAspect(1), 
         xlabel=L"α",
         xlabelsize=fontsize,
         ylabel=L"|λ|_{\mathrm{max}}",
@@ -43,6 +43,9 @@ function fig_cstfreqslice(; fig=Figure())
     
     axislegend(axs, position=:rt, labelsize=legendsize)
     hideydecorations!(axs, label=false, ticklabels=false, ticks=false)
+
+    colsize!(fig.layout, 1, Aspect(1, 1.0))
+    resize_to_layout!(fig)
     return fig
 end
 

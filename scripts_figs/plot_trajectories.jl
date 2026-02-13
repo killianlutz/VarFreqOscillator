@@ -55,7 +55,7 @@ function fig_trajectories(; fig=Figure())
         yticks=([0, 10], [L"%$(i)" for i in [0, 10]]),
         xtickalign=1.0, # ticks pointing inside
         ytickalign=1.0, # ticks pointing inside
-        aspect=AxisAspect(1)
+        # aspect=AxisAspect(1)
         )
     ylims!(axtraj, -1.0, 15.0)
 
@@ -94,7 +94,7 @@ function fig_trajectories(; fig=Figure())
         ylabel=L"u/u_{\max}", 
         ylabelsize=0.85fontsize,
         title=L"r = %$(r), \quad \omega_0T^* ≃ %$(ω0T)", 
-        aspect=AxisAspect(1),
+        # aspect=AxisAspect(1),
         xticks=(0:1, [L"0", L"1"]),
         yticks=(0:1, [L"0", L"1"]),
         titlesize=15
@@ -134,7 +134,7 @@ function fig_trajectories(; fig=Figure())
         yticks=([0, 60], [L"%$(i)" for i in [0, 60]]),
         xtickalign=1.0, # ticks pointing inside
         ytickalign=1.0, # ticks pointing inside
-        aspect=AxisAspect(1)
+        # aspect=AxisAspect(1)
         )
     ylims!(axtraj, -40, 90)
 
@@ -178,7 +178,7 @@ function fig_trajectories(; fig=Figure())
         ylabel=L"u/u_{\max}", 
         ylabelsize=0.85fontsize,
         title=L"r = %$(r), \quad \omega_0T^* ≃ %$(ω0T)", 
-        aspect=AxisAspect(1),
+        # aspect=AxisAspect(1),
         xticks=(0:1, [L"0", L"1"]),
         yticks=(0:1, [L"0", L"1"]),
         titlesize=15
@@ -191,8 +191,10 @@ function fig_trajectories(; fig=Figure())
     k = 3
     vlines!(axctrl2, [i/k for i in 0:k], color=:black, linestyle=:dash, alpha=1.0, linewidth=1.5)
     
-    colgap!(fig.layout, -100)
-
+    # colgap!(fig.layout, -100)
+    colsize!(fig.layout, 1, Aspect(1, 1.0))
+    colsize!(fig.layout, 2, Aspect(1, 1.5))
+    resize_to_layout!(fig)
     return fig
 end
 

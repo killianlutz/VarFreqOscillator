@@ -42,7 +42,7 @@ function fig_floquet3D(; fig=Figure())
 
     axs = Axis3(
         fig[1, 1], 
-        aspect=:equal, 
+        # aspect=:equal, 
         xlabel=L"α",
         xlabelsize=fontsize,
         ylabel=L"ω_0/η",
@@ -64,7 +64,7 @@ function fig_floquet3D(; fig=Figure())
             Point3(first(p), ω, log10(last(p)))
         end |> vec
         p = Point3(first(z), ω, log10(last(z)))
-        scatter!(axs, vertical_slice; color, markersize=5, transparency=true)
+        scatter!(axs, vertical_slice; color, markersize=1, transparency=true)
     end
 
     # Curve of optimal control for unit amplification: r = 1
@@ -93,6 +93,9 @@ function fig_floquet3D(; fig=Figure())
     z_thr = ωα_at_threshold(γ, Γ1)
     p_thr = Point3(first(z_thr), ω01, log10(last(z_thr)))
     scatter!(axs, p_thr, color=:blue, marker=:circle, markersize=12)
+
+    colsize!(fig.layout, 1, Aspect(1, 1.0))
+    resize_to_layout!(fig)
 
     fig
 end

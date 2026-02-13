@@ -24,8 +24,8 @@ function fig_floquet2D(; fig=Figure())
     hllinestyles = [:dot, :dash]
 
     axs = Axis(
-        fig[1, 1], 
-        aspect=AxisAspect(1), 
+        fig[3, 1], 
+        # aspect=AxisAspect(1), 
         xlabel=L"α",
         xlabelsize=fontsize,
         ylabel=L"ω/ω_0",
@@ -70,11 +70,13 @@ function fig_floquet2D(; fig=Figure())
     text!(axs, steps; text, align, offset, fontsize)
 
     ### colorbars
-    Colorbar(fig[1, 2][:, 1], hm, label=L"|λ|_{\mathrm{max}}", labelsize=fontsize)
-    Colorbar(fig[1, 2][:, 2], sc, label=L"\log_{10}(r)", labelsize=fontsize)
+    Colorbar(fig[1, 1], hm, label=L"|λ|_{\mathrm{max}}", labelsize=fontsize, vertical=false, ticks=([1, 10, 30], [L"%$(x)" for x in [1, 10, 30]]), labelpadding=-10)
+    Colorbar(fig[2, 1], sc, label=L"\log_{10}(r)", labelsize=fontsize, vertical=false, ticks=(0:3, [L"%$(x)" for x in 0:3]), labelpadding=-10)
     xlims!(axs, xlimits)
     ylims!(axs, ylimits)
 
+    rowsize!(fig.layout, 3, Aspect(1, 1.0))    
+    resize_to_layout!(fig)
     fig
 end
 

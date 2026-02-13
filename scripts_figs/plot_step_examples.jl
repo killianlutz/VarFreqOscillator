@@ -39,7 +39,7 @@ function fig_step_examples(; fig=Figure())
                 yticks,
                 ytickalign=1.0, # ticks pointing inside
                 ylabelsize=fontsize, 
-                aspect=AxisAspect(1)
+                # aspect=AxisAspect(1)
                 )
             xlims!(-1.5, 1.5)
             ylims!(-55.0, 55.0)
@@ -57,7 +57,7 @@ function fig_step_examples(; fig=Figure())
                 ylabelsize=fontsize, 
                 yticks,
                 ytickalign=1.0, # ticks pointing inside
-                aspect=AxisAspect(1)
+                # aspect=AxisAspect(1)
                 )
         end
 
@@ -84,7 +84,7 @@ function fig_step_examples(; fig=Figure())
             xlabelsize=0.85fontsize,
             ylabel=L"S_{%$(i)}/u_{\max}", 
             ylabelsize=0.85fontsize,
-            aspect=AxisAspect(1),
+            # aspect=AxisAspect(1),
             xticks,
             yticks=(0:1, [L"0", L"1"]),
             titlesize=15
@@ -100,8 +100,11 @@ function fig_step_examples(; fig=Figure())
         nothing
     end
 
-    colgap!(fig.layout, -200)
-    rowgap!(fig.layout, 10)
+    # colgap!(fig.layout, -200)
+    # rowgap!(fig.layout, 10)
+    colsize!(fig.layout, 1, Aspect(1, 1.0))
+    colsize!(fig.layout, 2, Aspect(1, 1.0))
+    resize_to_layout!(fig)
 
     fig
 end
