@@ -67,7 +67,7 @@ function fig_step_examples(; fig=Figure())
             lines!(axs, Py; color=colors[i][j], linestyle=linestyles[j], linewidth)
             if i > 1
                 # too cluttered if i == 1
-                scatter!(axs, first(Py), color=colors[i][j], markersize=10)
+                scatter!(axs, first(Py), color=colors[i][j], markersize=5)
             end
         end
 
