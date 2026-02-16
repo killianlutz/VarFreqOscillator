@@ -57,7 +57,7 @@ function monodromy(α, P, Γ, γ)
     ϕ2 = minflow(γ, t)
 
     #### monodromy 
-    # flow at time P = flow at (1-α)P times flow at αP
+    # flow at time P = (flow at (1-α)P times flow at αP)
     return ϕ2 * ϕ1
 end
 
@@ -127,7 +127,7 @@ function floquet(Γ, γ, α, ρ; abstol=0.0)
     nα = length(α)
     nρ = length(ρ)
 
-    ω = Γ/2  # natural pseudo pulsation ω0
+    ω = Γ/2  # natural pseudo pulsation ω0 (since η = 1 here)
     T = 2π/ω # natural pseudo period
     P = T ./ ρ
 
