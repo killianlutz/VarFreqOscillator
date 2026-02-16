@@ -4,7 +4,7 @@ using JLD2
 
 
 include("./parameters.jl")
-ω = η*Γ/2
+ω0 = η*Γ/2
 
 # theoretical optimal solution for r = +∞
 c1 = bissection(-5, -4, 1e-8) do c
@@ -30,7 +30,7 @@ t = map(τ) do x # length of step at u_min
     -log(num/den)/γ ### assumes 0 ≤ γ < 1
 end
 α1 = (P .- t)./P
-ρ1 = (2π ./ P)./ω
+ρ1 = (2π ./ P)./ω0
 Z = [Point2(u, v) for (u, v) in zip(α1, ρ1)] # optimal pairs (α, ρ) as r varies
 
 @save "./sims/optstepfun_amplification.jld2" Γ γ z Z r

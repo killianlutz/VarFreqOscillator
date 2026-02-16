@@ -56,6 +56,7 @@ function fig_floquet3D(; fig=Figure())
         zticks=(ztickvalues, zticklabels),
         azimuth=azimuth
         )
+    xlims!(xlimits...)
 
     # Floquet stability for different values of ω0
     sc = map(ω0, y, colors, zs) do ω, Y, color, z
@@ -69,12 +70,11 @@ function fig_floquet3D(; fig=Figure())
 
     # Curve of optimal control for unit amplification: r = 1
     p = [Point3(first(z1), ω, log10(last(z1))) for (ω, z1) in zip(ω0, z1s)]
-    scatter!(axs, p, color=:purple, marker=:circle, markersize=12)
+    scatter!(axs, p, color=:purple, marker=:circle, markersize=14)
 
     # Curve of optimal control for infinite amplification: r = +∞
-    light_red = RGBAf(0.9, 0, 0.1, 0.9)
     p = [Point3(first(z), ω, log10(last(z))) for (ω, z) in zip(ω0, zs)]
-    scatter!(axs, p, color=light_red, marker=:x, markersize=12)
+    scatter!(axs, p, color=:red, marker=:x, markersize=14)
 
     # plane highlighting critical ω0 value enabling amplification
     mz, Mz = log10.(zlimits)
@@ -86,13 +86,13 @@ function fig_floquet3D(; fig=Figure())
         Point3(0.0, ω01, mz),
         ]
     textposition = segment[4] + Point3(0, 0.3, 0)
-    lines!(axs, segment, color=:blue, linestyle=:dash, linewidth=1.0)
-    text!(axs, textposition; text=L"ω_{\mathrm{thr}}/\eta", color=:blue, fontsize=textsize)
+    lines!(axs, segment, color=:black, linestyle=:dash, linewidth=2.0)
+    text!(axs, textposition; text=L"ω_{\mathrm{thr}}/\eta", color=:black, fontsize=textsize)
     
     # limiting parameters as ω0 → ω_{thr}
     z_thr = ωα_at_threshold(γ, Γ1)
     p_thr = Point3(first(z_thr), ω01, log10(last(z_thr)))
-    scatter!(axs, p_thr, color=:blue, marker=:circle, markersize=12)
+    scatter!(axs, p_thr, color=:black, marker=:utriangle, markersize=16)
 
     colsize!(fig.layout, 1, Aspect(1, 1.0))
     resize_to_layout!(fig)

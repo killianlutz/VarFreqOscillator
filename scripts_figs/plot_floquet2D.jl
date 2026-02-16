@@ -4,9 +4,17 @@ CairoMakie.activate!()
 
 function fig_floquet2D(; fig=Figure())
     @load "./sims/floquet2d.jld2" Γ γ nα nρ α ρ S S01
-    @load "./sims/optstepfun_amplification.jld2" Γ γ z Z r
     @load "./sims/specrad_argmax.jld2" argmax_sr_cstfreq
-    @load "./sims/step_examples.jld2" A Ω isunstable
+    @load "./sims/step_examples.jld2" A Ω
+    @load "./sims/optstepfun_amplification.jld2" Γ γ z Z r
+    @load "./sims/floquet2d_slices_r_finite.jld2" ρ_opt z8
+
+    ρ1 = last(first(Z))
+    ρ1_round = round(ρ1, digits=3)
+    ρinf = last(z)
+    ρinf_round = round(ρinf, digits=3)
+    ρ8 = ρ_opt
+    ρ8_round = round(ρ8, digits=3)
 
     fontsize = 20
 
@@ -19,22 +27,25 @@ function fig_floquet2D(; fig=Figure())
     ytickvalues = [1e-1, 1]
     yticklabels = [L"10^{%$(n)}" for n in -1:0]
 
-    hlinesfreq = reverse([1/2, 2])
-    hllabels = reverse([L"1/2", L"2"])
-    hllinestyles = [:dot, :dash]
+    hlinesfreq = reverse([ρ8, ρinf, ρ1])
+    hllabels = reverse([L"%$(ρ8_round)", L"%$(ρinf_round)", L"%$(ρ1_round)"])
+    hllinestyles = [:solid, :solid, :solid]
+    hlcolors = reverse([:blue, :red, :purple])
 
     axs = Axis(
         fig[3, 1], 
         # aspect=AxisAspect(1), 
         xlabel=L"α",
-        xlabelsize=fontsize,
+        xlabelsize=1.3fontsize,
         ylabel=L"ω/ω_0",
-        ylabelsize=fontsize,
+        ylabelsize=1.5fontsize,
         # title=L"\mathrm{Floquet~stability}",
         xticks=(xtickvalues, xticklabels),
+        xticklabelsize=fontsize,
         xtickalign=1.0, # ticks pointing inside
         yscale=log10,
         yticks=(ytickvalues, yticklabels),
+        yticklabelsize=fontsize,
         ytickalign=1.0  # ticks pointing inside
         )
     
@@ -47,26 +58,39 @@ function fig_floquet2D(; fig=Figure())
     
     # control corresponding to r = 1
     z1 = first(Z)
-    scatter!(axs, z1, color=:purple, markersize=17, marker=:circle)
-    vlines!(axs, first(z1); ymax=0.88, linewidth=1.5, color=:purple, alpha=1.0)
+    text = L"r = 1"
+    align = (:right, :bottom)
+    offset = (0, 10)
+    scatter!(axs, z1, color=:purple, markersize=20, marker=:circle)
+    text!(axs, z1; text, align, offset, fontsize=0.9fontsize, color=:purple)
+    # vlines!(axs, first(z1); ymax=0.88, linewidth=1.5, color=:purple, alpha=1.0)
+
+    # control corresponding to r = 8
+    text = L"r = 8"
+    align = (:right, :bottom)
+    offset = (0, 10)
+    scatter!(axs, z8, color=:blue, markersize=25, marker=:star4)
+    text!(axs, z8; text, align, offset, fontsize=0.9fontsize, color=:blue)
+    # vlines!(axs, first(z1); ymax=0.88, linewidth=1.5, color=:purple, alpha=1.0)
 
     # control corresponding to r = +∞
-    light_red = RGBAf(0.9, 0, 0.1, 0.9)
-    scatter!(axs, z, color=light_red, markersize=17, marker=:x)
-    hlines!(axs, last(z); xmax=first(z), linewidth=1.5, color=light_red, alpha=1.0)
-    vlines!(axs, first(z); ymax=0.70, linewidth=1.5, color=light_red, alpha=1.0)
+    text = L"r = ∞"
+    align = (:right, :bottom)
+    offset = (0, 10)
+    scatter!(axs, z, color=:red, markersize=22, marker=:x)
+    text!(axs, z; text, align, offset, fontsize=0.9fontsize, color=:red)
 
-    foreach(hlinesfreq, hllabels, hllinestyles) do v, l, s
-        hlines!(axs, v, color=:blue, linestyle=s, linewidth=1.5, label=l)
+    foreach(hlinesfreq, hllabels, hllinestyles, hlcolors) do v, l, s, c
+        hlines!(axs, v, color=c, linestyle=s, linewidth=1.5, label=l)
     end 
-    axislegend(axs, L"ω/ω_0"; position=:cb, titlesize=18)
+    axislegend(axs, L"ω/ω_0"; position=:cb, titlesize=22, labelsize=17)
 
     ### location of step function examples
     steps = [Point2(x, y) for (x, y) in zip(A, Ω)]
     text = [L"S_1", L"S_2", L"S_3"]
     align = [(:left, :top), (:right, :center), (:right, :center)]
     offset = [(3, -3), (-8, 0), (-8, 0)]
-    scatter!(axs, steps; marker=:rect, markersize=14, color=:black)
+    scatter!(axs, steps; marker=:rect, markersize=16, color=:black)
     text!(axs, steps; text, align, offset, fontsize)
 
     ### colorbars

@@ -27,19 +27,19 @@ function fig_cstfreqslice(; fig=Figure())
     @load "./sims/floquet2d_slices_r_finite.jld2" k r_val α_opt α cst_freq_slice
     max_λ = cst_freq_slice[argmax(cst_freq_slice)]
 
-    lines!(α, cst_freq_slice, linewidth=2, color=:black, label=L"ω^*_{r = 8}")
-    vlines!(α_opt; ymax=0.95, linewidth=2.0, color=:blue)
+    lines!(α, cst_freq_slice, linewidth=2, color=:blue, label=L"ω^*_{r = 8}")
+    vlines!(α_opt; ymax=0.95, linewidth=2, linestyle=:dash, color=:blue, alpha=0.5)
     text!(α_opt, max_λ; text=L"α^*_{r = 8}", color=:blue, offset=(10, -12), fontsize=textsize)
-    scatter!(α_opt, max_λ, color=:blue, markersize=12)
+    scatter!(α_opt, max_λ, color=:blue, markersize=22, marker=:star4)
 
     ### infinite amplification
     @load "./sims/floquet2d_slices_r_infinity.jld2" k r_val α_opt α cst_freq_slice
     max_λ = cst_freq_slice[argmax(cst_freq_slice)]
 
-    lines!(α, cst_freq_slice, linewidth=2, color=:black, linestyle=:dash, label=L"ω^*_{r = ∞}")
-    vlines!(α_opt; ymax=0.44, linewidth=2.0, linestyle=:dash, color=:red)
+    lines!(α, cst_freq_slice, linewidth=2, color=:red, label=L"ω^*_{r = ∞}")
+    vlines!(α_opt; ymax=0.44, linewidth=2.0, linestyle=:dash, color=:red, alpha=0.5)
     text!(α_opt, max_λ; text=L"α^*_{r = ∞}", color=:red, offset=(-13, 10), fontsize=textsize)
-    scatter!(α_opt, max_λ, color=:red, markersize=12)
+    scatter!(α_opt, max_λ, color=:red, markersize=20, marker=:x)
     
     axislegend(axs, position=:rt, labelsize=legendsize)
     hideydecorations!(axs, label=false, ticklabels=false, ticks=false)
