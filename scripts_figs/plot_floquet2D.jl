@@ -7,13 +7,13 @@ function fig_floquet2D(; fig=Figure())
     @load "./sims/specrad_argmax.jld2" argmax_sr_cstfreq
     @load "./sims/step_examples.jld2" A Ω
     @load "./sims/optstepfun_amplification.jld2" Γ γ z Z r
-    @load "./sims/floquet2d_slices_r_finite.jld2" ρ_opt z8
+    @load "./sims/floquet2d_slices_r_finite.jld2" z8
 
     ρ1 = last(first(Z))
     ρ1_round = round(ρ1, digits=3)
     ρinf = last(z)
     ρinf_round = round(ρinf, digits=3)
-    ρ8 = ρ_opt
+    ρ8 = last(z8)
     ρ8_round = round(ρ8, digits=3)
 
     fontsize = 20
