@@ -63,7 +63,6 @@ function fig_floquet2D(; fig=Figure())
     offset = (0, 10)
     scatter!(axs, z1, color=:purple, markersize=20, marker=:circle)
     text!(axs, z1; text, align, offset, fontsize=0.9fontsize, color=:purple)
-    # vlines!(axs, first(z1); ymax=0.88, linewidth=1.5, color=:purple, alpha=1.0)
 
     # control corresponding to r = 8
     text = L"r = 8"
@@ -71,7 +70,6 @@ function fig_floquet2D(; fig=Figure())
     offset = (0, 10)
     scatter!(axs, z8, color=:blue, markersize=25, marker=:star4)
     text!(axs, z8; text, align, offset, fontsize=0.9fontsize, color=:blue)
-    # vlines!(axs, first(z1); ymax=0.88, linewidth=1.5, color=:purple, alpha=1.0)
 
     # control corresponding to r = +∞
     text = L"r = ∞"
