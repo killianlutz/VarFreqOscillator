@@ -52,7 +52,10 @@ function fig_floquet2D(; fig=Figure())
     hm = heatmap!(axs, α, ρ, S, colormap=:deep)
     contour!(axs, α, ρ, S, levels=[Sthreshold], linewidth=2/10, color=:black, linestyle=:dash)
 
-    sc = scatter!(axs, Z, color=log10.(r), markersize=12, colormap=[:orange, :green])
+    every = 2
+    Z_few = Z[1:every:length(Z)]
+    r_few = r[1:every:length(r)]
+    sc = scatter!(axs, Z_few, color=log10.(r_few), markersize=12, colormap=[:orange, :green])
     
     lines!(axs, argmax_sr_cstfreq, linewidth=2, color=:white)
     
