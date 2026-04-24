@@ -1,5 +1,5 @@
 ## Purpose: reproducibility
-This code, written in [Julia](https://julialang.org/), is provided to reproduce the figures in [this]() paper.
+This code, written in [Julia](https://julialang.org/), is provided to reproduce the figures in [this](https://hal.science/hal-05469937) paper.
 
 ## Getting started 
 Open the terminal and run
