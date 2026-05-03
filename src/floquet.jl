@@ -132,14 +132,16 @@ function floquet(Γ, γ, α, ρ; abstol=0.0)
     P = T ./ ρ
 
     x = vec([[αi, Pj] for αi in α, Pj in P])
-    S = vec(zeros(nα, nρ))
-    S01 = vec(zeros(Bool, nα, nρ))
+    S = vec(zeros(nα, nρ)) # spectral radius
+    ν = vec(zeros(nα, nρ)) # instability rate ln(S[i])/(Pi*ω0) ⇒ growth exp(ω0*ν[i]*t)
+    S01 = vec(zeros(Bool, nα, nρ)) # stable or not
 
     @threads for i in eachindex(S)
         αi, Pi = x[i]
         ϕ = monodromy(αi, Pi, Γ, γ)
         eigval_max, is_unstable = isunstable(ϕ; abstol)
         S[i] = eigval_max
+        ν[i] = eigval_max >= 1.0 ? log(eigval_max)/(Pi*ω) : NaN
         if ismissing(is_unstable)
             S01[i] = false
         else
@@ -148,9 +150,10 @@ function floquet(Γ, γ, α, ρ; abstol=0.0)
     end
 
     S = reshape(S, nα, nρ)
+    ν = reshape(ν, nα, nρ)
     S01 = reshape(S01, nα, nρ)
 
-    return (; P, S, S01)
+    return (; P, S, S01, ν)
 end
 
 function bissection(f, a0, b0, abstol)

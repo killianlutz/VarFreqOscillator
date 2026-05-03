@@ -1,6 +1,6 @@
 using JLD2
 
-@load "./sims/floquet2d.jld2" Γ γ nα nρ α ρ S S01
+@load "./sims/floquet2d.jld2" Γ γ nα nρ α ρ S S01 ν
 @load "./sims/optstepfun_amplification.jld2" Γ γ z Z r
 
 ### r < ∞
@@ -10,7 +10,7 @@ logr = round(log10(r[k]), digits=2)
 i = argmin(i -> abs(α[i] - Z[k][1]), eachindex(α))
 j = argmin(j -> abs(ρ[j] - Z[k][2]), eachindex(ρ))
 
-cst_freq_slice = S[:, j]
+cst_freq_slice = ν[:, j]
 α_opt = α[i]
 ρ_opt = ρ[j]
 r_val = isinf(k) ? Inf : r[k]
@@ -26,7 +26,7 @@ logr = Inf
 i = argmin(i -> abs(α[i] - z[1]), eachindex(α))
 j = argmin(j -> abs(ρ[j] - z[2]), eachindex(ρ))
 
-cst_freq_slice = S[:, j]
+cst_freq_slice = ν[:, j]
 α_opt = α[i]
 ρ_opt = ρ[j]
 r_val = isinf(k) ? Inf : r[k]

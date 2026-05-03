@@ -3,7 +3,7 @@ using CairoMakie
 CairoMakie.activate!()
 
 function fig_floquet2D(; fig=Figure())
-    @load "./sims/floquet2d.jld2" Γ γ nα nρ α ρ S S01
+    @load "./sims/floquet2d.jld2" Γ γ nα nρ α ρ S S01 ν
     @load "./sims/specrad_argmax.jld2" argmax_sr_cstfreq
     @load "./sims/step_examples.jld2" A Ω
     @load "./sims/optstepfun_amplification.jld2" Γ γ z Z r
@@ -43,14 +43,16 @@ function fig_floquet2D(; fig=Figure())
         xticks=(xtickvalues, xticklabels),
         xticklabelsize=fontsize,
         xtickalign=1.0, # ticks pointing inside
+        xgridvisible=false,
         yscale=log10,
         yticks=(ytickvalues, yticklabels),
         yticklabelsize=fontsize,
-        ytickalign=1.0  # ticks pointing inside
+        ytickalign=1.0,  # ticks pointing inside
+        ygridvisible=false
         )
     
-    hm = heatmap!(axs, α, ρ, S, colormap=:deep)
-    contour!(axs, α, ρ, S, levels=[Sthreshold], linewidth=2/10, color=:black, linestyle=:dash)
+    hm = heatmap!(axs, α, ρ, ν, colormap=cgrad(:deep; rev=true, alpha=0.75))
+    contour!(axs, α, ρ, S, levels=[Sthreshold], linewidth=6/10, color=:black, linestyle=:dash)
 
     every = 2
     Z_few = Z[1:every:length(Z)]
@@ -95,7 +97,7 @@ function fig_floquet2D(; fig=Figure())
     text!(axs, steps; text, align, offset, fontsize)
 
     ### colorbars
-    Colorbar(fig[1, 1], hm, label=L"|λ|_{\mathrm{max}}", labelsize=fontsize, vertical=false, ticks=([1, 10, 30], [L"%$(x)" for x in [1, 10, 30]]), labelpadding=-10)
+    Colorbar(fig[1, 1], hm, label=L"ν/ω_0", labelsize=fontsize, vertical=false, ticks=([0.05, 0.15], [L"0.05", L"0.15"]), labelpadding=-10)
     Colorbar(fig[2, 1], sc, label=L"\log_{10}(r)", labelsize=fontsize, vertical=false, ticks=(0:3, [L"%$(x)" for x in 0:3]), labelpadding=-10)
     xlims!(axs, xlimits)
     ylims!(axs, ylimits)
