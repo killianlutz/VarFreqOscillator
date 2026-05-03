@@ -138,8 +138,8 @@ function floquet(Γ, γ, α, ρ; abstol=0.0)
     @threads for i in eachindex(S)
         αi, Pi = x[i]
         ϕ = monodromy(αi, Pi, Γ, γ)
-        ρ, is_unstable = isunstable(ϕ; abstol)
-        S[i] = ρ
+        eigval_max, is_unstable = isunstable(ϕ; abstol)
+        S[i] = eigval_max
         if ismissing(is_unstable)
             S01[i] = false
         else
