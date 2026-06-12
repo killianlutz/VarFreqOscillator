@@ -21,11 +21,15 @@ function fig_cstfreqslice(; fig=Figure())
         xticks=([i/4 for i in 0:4], [L"0", L"1/4", L"1/2", L"3/4", L"1"])
         )
     ylims!(-0.01, 0.27)
+    xlims!(0, 1)
     # hlines!(1.0, color=:black, alpha=0.5)
     
     ### finite amplification
     @load "./sims/floquet2d_slices_r_finite.jld2" k r_val α_opt α cst_freq_slice
-    max_λ = cst_freq_slice[argmax(cst_freq_slice)]
+
+    s = cst_freq_slice
+    i_max = argmax(i -> isnan(s[i]) ? 0.0 : s[i], eachindex(cst_freq_slice))
+    max_λ = cst_freq_slice[i_max]
 
     lines!(α, cst_freq_slice, linewidth=2, color=:blue, label=L"ω^*_{r = 8}")
     vlines!(α_opt; ymax=0.72, linewidth=2, linestyle=:dash, color=:blue, alpha=0.5)
@@ -34,7 +38,10 @@ function fig_cstfreqslice(; fig=Figure())
 
     ### infinite amplification
     @load "./sims/floquet2d_slices_r_infinity.jld2" k r_val α_opt α cst_freq_slice
-    max_λ = cst_freq_slice[argmax(cst_freq_slice)]
+    
+    s = cst_freq_slice
+    i_max = argmax(i -> isnan(s[i]) ? 0.0 : s[i], eachindex(cst_freq_slice))
+    max_λ = cst_freq_slice[i_max]
 
     lines!(α, cst_freq_slice, linewidth=2, color=:red, label=L"ω^*_{r = ∞}")
     vlines!(α_opt; ymax=0.85, linewidth=2.0, linestyle=:dash, color=:red, alpha=0.5)

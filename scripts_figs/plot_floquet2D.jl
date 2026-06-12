@@ -51,7 +51,7 @@ function fig_floquet2D(; fig=Figure())
         ygridvisible=false
         )
     
-    hm = heatmap!(axs, α, ρ, ν, colormap=cgrad(:deep; rev=true, alpha=0.75))
+    hm = heatmap!(axs, α, ρ, ν, colormap=cgrad(:deep; rev=true))
     contour!(axs, α, ρ, S, levels=[Sthreshold], linewidth=6/10, color=:black, linestyle=:dash)
 
     every = 2

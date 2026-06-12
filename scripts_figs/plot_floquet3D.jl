@@ -36,7 +36,7 @@ function fig_floquet3D(; fig=Figure())
     ytickvalues = [2, 5, 8]
     yticklabels = [L"2", L"5", L"8"]
     ztickvalues = [-1, 0]
-    zticklabels = [L"-1", L"0"]
+    zticklabels = [L"10^{-1}", L"10^{0}"]
 
     colors = cgrad([:teal, :orange], length(Γs); categorical=true);
 
@@ -48,8 +48,9 @@ function fig_floquet3D(; fig=Figure())
         ylabel=L"ω_0/η",
         ylabelsize=fontsize,
         ylabeloffset=25.0,
-        zlabel=L"\log_{10}(ω/ω_0)",
+        zlabel=L"ω/ω_0",
         zlabelsize=fontsize,
+        zlabeloffset=23,
         # title=L"\mathrm{Growing~instability~regions}",
         xticks=(xtickvalues, xticklabels),
         yticks=(ytickvalues, yticklabels),
