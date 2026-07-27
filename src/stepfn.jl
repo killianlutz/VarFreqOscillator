@@ -31,7 +31,7 @@ function control_to_steplengths(vs, k)
     idx = [1; idx; length(vs)]
 
     # take into account the number of swings
-    dts = k*diff(idx)/length(v)
+    dts = k*diff(idx)/length(vs)
 
     ds1 = first(dts)
     ds2 = dts[2]
