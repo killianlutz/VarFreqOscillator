@@ -38,4 +38,4 @@ In the directory `./scripts_figs/`, each one of the 5 files corresponds to one o
 ## Troubleshooting
 Feel free to reach out to me: [Killian Lutz](https://killianlutz.github.io/).
 
-Zenodo : 10.5281/zenodo.24130003
+[![DOI](https://zenodo.org/badge/1053256892.svg)](https://doi.org/10.5281/zenodo.24130002)
